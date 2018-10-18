@@ -1,9 +1,23 @@
-from flask import Flask, jsonify, request
-from Database import session,User,Item
+from flask import Flask, jsonify, request,redirect,url_for
+from Database import session, User, Item
 from sqlalchemy import desc
+from flask_login import LoginManager, current_user, login_user, login_required,logout_user
+from wtforms import StringField, Form
+from wtforms.validators import DataRequired
+
 import datetime
 
 app = Flask(__name__)
+login = LoginManager(app)
+app.config.update(dict(
+    SECRET_KEY="hellowtfcsrfsk",
+    WTF_CSRF_SECRET_KEY="hellowtfcsrf"
+))
+
+
+class LoginForm(Form):
+    username = StringField('username', validators=[DataRequired()])
+    password = StringField('password', validators=[DataRequired()])
 
 
 class InvalidUsage(Exception):
@@ -44,12 +58,53 @@ def remove_session(ex=None):
     session.remove()
 
 
+@login.user_loader
+def load_user(id):
+    return session.query(User).get(int(id))
+
+
 @app.route('/')
 def welcome_page():
     return "Welcome To Project Category"
 
 
+@app.route('/createnewuser', methods=['POST'])
+def create_new_user():
+    new_user = User(
+        username=request.form['username'],
+    )
+    new_user.set_password(request.form['password'])
+    session.add(new_user)
+    session.commit()
+
+    return jsonify({'success': 200})
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    form = LoginForm(request.form)
+    if current_user.is_authenticated:
+        # user = session.query(User).filter_by(username=form.username.data).first()
+        # login_user(user)
+        return "already authenticate"
+    if form.validate():
+        user = session.query(User).filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            return 'error password not match'
+        login_user(user)
+        return 'success login'
+    return "please login"
+
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return 'user logout'
+
+
 @app.route('/createitem', methods=['POST'])
+@login_required
 def create_new_item():
     new_item = Item(
         name=request.form['name'],
@@ -64,6 +119,7 @@ def create_new_item():
 
 
 @app.route('/item/<int:item_id>', methods=['GET'])
+@login_required
 def get_item_by_id(item_id):
     return_item = session.query(Item).filter_by(id=item_id).one()
     session.commit()
@@ -79,6 +135,7 @@ def get_item_by_id(item_id):
 
 
 @app.route('/category/<int:category_id>', methods=['GET'])
+@login_required
 def get_all_item_in_category(category_id):
     items = session.query(Item).filter_by(categoryid=category_id)
     all_item = [
@@ -93,6 +150,7 @@ def get_all_item_in_category(category_id):
 
 
 @app.route('/category/latest', methods=['GET'])
+@login_required
 def get_all_item_in_category_by_latest():
     items = session.query(Item).order_by(desc(Item.id)).limit(10).all()
     all_item = [
