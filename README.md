@@ -10,3 +10,6 @@ Version 0.0.1
 Backend will have to config python interpreter and run following command 
 - pip install flask
 - pip install sqlalchemy
+- pip install Werkzeug
+- pip install flask-login
+
