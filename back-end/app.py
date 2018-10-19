@@ -1,9 +1,10 @@
 from flask import Flask, jsonify, request
 from Database import session, User, Item, Category
 from sqlalchemy import desc
-from flask_login import LoginManager, current_user, login_user, login_required,logout_user
+from flask_login import LoginManager, current_user, login_user, login_required, logout_user
 from wtforms import StringField, Form
 from wtforms.validators import DataRequired
+from flask_cors import CORS
 
 import datetime
 
@@ -13,6 +14,7 @@ app.config.update(dict(
     SECRET_KEY="hellowtfcsrfsk",
     WTF_CSRF_SECRET_KEY="hellowtfcsrf"
 ))
+CORS(app)
 
 
 class LoginForm(Form):
@@ -71,6 +73,7 @@ def welcome_page():
 @app.route('/createnewuser', methods=['POST'])
 def create_new_user():
     new_user = User(
+        name=request.form['name'],
         username=request.form['username'],
     )
     new_user.set_password(request.form['password'])
@@ -84,14 +87,15 @@ def create_new_user():
 def login():
     form = LoginForm(request.form)
     if current_user.is_authenticated:
-        return "already authenticate"
+        user = session.query(User).filter_by(username=form.username.data).first()
+        return jsonify({'name': user.name, 'username': user.username})
     if form.validate():
         user = session.query(User).filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            return 'error password not match'
+            return jsonify({'fail': 500})
         login_user(user)
-        return 'success login'
-    return "please login"
+        return jsonify({'name': user.name, 'username': user.username})
+    return jsonify({'fail': 200})
 
 
 @app.route("/logout")
@@ -102,7 +106,6 @@ def logout():
 
 
 @app.route('/createitem', methods=['POST'])
-@login_required
 def create_new_item():
     new_item = Item(
         name=request.form['name'],
@@ -117,7 +120,6 @@ def create_new_item():
 
 
 @app.route('/modifyitem/<int:item_id>', methods=['PUT'])
-@login_required
 def modify_item(item_id):
     session.query(Item).filter_by(id=item_id).update(
         {
@@ -131,23 +133,27 @@ def modify_item(item_id):
 
 
 @app.route('/item/<int:item_id>', methods=['GET'])
-@login_required
 def get_item_by_id(item_id):
     return_item = session.query(Item).filter_by(id=item_id).one()
+    return_categories = session.query(Category).all()
     session.commit()
-    return jsonify(
+    return jsonify({
+        'item':
         {
             'id': return_item.id,
             'name': return_item.name,
             'description': return_item.description,
             'categoryId': return_item.categoryid,
             'createDate': return_item.createdate
-        }
-    )
+        },
+        'categories':[
+        {'id': category.id,
+         'name': category.name,
+         } for category in return_categories]
+    })
 
 
 @app.route('/createcategory', methods=['POST'])
-@login_required
 def create_new_category():
     new_category = Category(
         name=request.form['name'],
@@ -159,7 +165,6 @@ def create_new_category():
 
 
 @app.route('/modifycategory/<int:category_id>', methods=['PUT'])
-@login_required
 def modify_category(category_id):
     session.query(Category).filter_by(id=category_id).update({"name": request.form['name']})
     session.commit()
@@ -167,7 +172,6 @@ def modify_category(category_id):
 
 
 @app.route('/category/<int:category_id>', methods=['GET'])
-@login_required
 def get_all_item_in_category(category_id):
     items = session.query(Item).filter_by(categoryid=category_id)
     all_item = [
@@ -182,7 +186,6 @@ def get_all_item_in_category(category_id):
 
 
 @app.route('/category/latest', methods=['GET'])
-@login_required
 def get_all_item_in_category_by_latest():
     items = session.query(Item).order_by(desc(Item.id)).limit(10).all()
     all_item = [
@@ -191,9 +194,29 @@ def get_all_item_in_category_by_latest():
          'description': item.description,
          'categoryId': item.categoryid,
          'createDate': item.createdate
-         }for item in items]
+         } for item in items]
 
     return jsonify(all_item)
+
+
+@app.route('/category', methods=['GET'])
+def get_all_category():
+    categories = session.query(Category).all()
+    all_category = [
+        {'id': category.id,
+         'name': category.name,
+         } for category in categories]
+
+    items = session.query(Item).order_by(desc(Item.id)).limit(10).all()
+    all_item = [
+        {'id': item.id,
+         'name': item.name,
+         'description': item.description,
+         'categoryId': item.categoryid,
+         'createDate': item.createdate
+         } for item in items]
+
+    return jsonify({'categories': all_category, 'latestItems': all_item})
 
 
 if __name__ == '__main__':
