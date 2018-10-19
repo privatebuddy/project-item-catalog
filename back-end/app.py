@@ -1,5 +1,5 @@
-from flask import Flask, jsonify, request,redirect,url_for
-from Database import session, User, Item
+from flask import Flask, jsonify, request
+from Database import session, User, Item, Category
 from sqlalchemy import desc
 from flask_login import LoginManager, current_user, login_user, login_required,logout_user
 from wtforms import StringField, Form
@@ -65,7 +65,7 @@ def load_user(id):
 
 @app.route('/')
 def welcome_page():
-    return "Welcome To Project Category"
+    return "Welcome To Project Category Please Login"
 
 
 @app.route('/createnewuser', methods=['POST'])
@@ -84,8 +84,6 @@ def create_new_user():
 def login():
     form = LoginForm(request.form)
     if current_user.is_authenticated:
-        # user = session.query(User).filter_by(username=form.username.data).first()
-        # login_user(user)
         return "already authenticate"
     if form.validate():
         user = session.query(User).filter_by(username=form.username.data).first()
@@ -118,6 +116,20 @@ def create_new_item():
     return jsonify({'success': 200})
 
 
+@app.route('/modifyitem/<int:item_id>', methods=['PUT'])
+@login_required
+def modify_item(item_id):
+    session.query(Item).filter_by(id=item_id).update(
+        {
+            "name": request.form['name'],
+            "description": request.form['description'],
+            "categoryid": request.form['categoryid'],
+            "createdate": datetime.datetime.now()
+        })
+    session.commit()
+    return jsonify({'success': 200})
+
+
 @app.route('/item/<int:item_id>', methods=['GET'])
 @login_required
 def get_item_by_id(item_id):
@@ -132,6 +144,26 @@ def get_item_by_id(item_id):
             'createDate': return_item.createdate
         }
     )
+
+
+@app.route('/createcategory', methods=['POST'])
+@login_required
+def create_new_category():
+    new_category = Category(
+        name=request.form['name'],
+    )
+    session.add(new_category)
+    session.commit()
+
+    return jsonify({'success': 200})
+
+
+@app.route('/modifycategory/<int:category_id>', methods=['PUT'])
+@login_required
+def modify_category(category_id):
+    session.query(Category).filter_by(id=category_id).update({"name": request.form['name']})
+    session.commit()
+    return jsonify({'success': 200})
 
 
 @app.route('/category/<int:category_id>', methods=['GET'])
