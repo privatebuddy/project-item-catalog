@@ -12,4 +12,5 @@ Backend will have to config python interpreter and run following command
 - pip install sqlalchemy
 - pip install Werkzeug
 - pip install flask-login
+- pip install flask_cors
 
