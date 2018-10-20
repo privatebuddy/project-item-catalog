@@ -115,7 +115,14 @@ def create_new_item():
     )
     session.add(new_item)
     session.commit()
+    return jsonify({'success': 200})
 
+
+@app.route('/deleteitem/<int:item_id>', methods=['PUT'])
+def delete_item(item_id):
+    return_item = session.query(Item).filter_by(id=item_id).one()
+    session.delete(return_item)
+    session.commit()
     return jsonify({'success': 200})
 
 
@@ -161,6 +168,18 @@ def create_new_category():
     session.add(new_category)
     session.commit()
 
+    return jsonify({'success': 200})
+
+
+@app.route('/deletecategory/<int:category_id>', methods=['DELETE'])
+def delete_category(category_id):
+    return_item = session.query(Item).filter_by(categoryid=category_id)
+    for item in return_item:
+        print(item.id)
+        session.delete(item)
+    category = session.query(Category).filter_by(id=category_id).one()
+    session.delete(category)
+    session.commit()
     return jsonify({'success': 200})
 
 
