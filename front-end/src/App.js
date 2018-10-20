@@ -1,18 +1,18 @@
 import React, {Component, Fragment} from 'react';
 import './App.css';
-import {BrowserRouter as Router, Redirect, Route, withRouter} from 'react-router-dom';
+import {BrowserRouter as Router, Redirect, Route} from 'react-router-dom';
 import LoadingBar from 'react-redux-loading';
 import {connect} from 'react-redux';
 import LoginPage from "./Components/LoginPage";
 import MainPage from "./Components/MainPage";
 import NavigationMenu from "./Components/Objects/NavigationMenu";
-import {handleLogin} from "./Actions/shareActions";
 import CategoryPage from "./Components/CategoryPage";
 import ItemPage from "./Components/ItemPage";
+import CreateCategoryPage from "./Components/CreateCategoryPage";
+import CreateNewItemPage from "./Components/CreateNewItemPage";
 
 class App extends Component {
     componentDidMount() {
-        this.props.dispatch(handleLogin('adminkub','admin123'))
     }
 
     render() {
@@ -31,7 +31,9 @@ class App extends Component {
                                 <Route path="/login" component={LoginPage}/>
                                 <PrivateRoute path='/' exact component={MainPage}/>
                                 <PrivateRoute path='/categories/:id' exact component={CategoryPage}/>
+                                <PrivateRoute path='/createcategory' exact component={CreateCategoryPage}/>
                                 <PrivateRoute path='/items/:id' exact component={ItemPage}/>
+                                <PrivateRoute path='/createitem/:id' exact component={CreateNewItemPage}/>
                             </div>
                     }
                 </Fragment>

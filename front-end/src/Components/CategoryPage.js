@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
-import {Card, Grid, Header, Container,Button,Input} from 'semantic-ui-react'
+import {Card, Grid, Header, Container,Button,Input,Icon} from 'semantic-ui-react'
 import connect from "react-redux/es/connect/connect";
-import {handleChangeCategoryName, handleGetItemsInCategory} from "../Actions/shareActions";
-import {Link} from 'react-router-dom';
+import {handleChangeCategoryName, handleDeleteCategory, handleGetItemsInCategory} from "../Actions/shareActions";
+import {Link,Redirect} from 'react-router-dom';
 
 class CategoryPage extends Component {
 
     state={
         isChangeCategoryName:false,
-        changeName:''
+        changeName:'',
+        isCategoryDelete:false,
     };
 
     componentDidMount() {
@@ -41,13 +42,22 @@ class CategoryPage extends Component {
             this.setState({changeName:category.name})
         }
 
-        this.setState({isChangeDetail:!this.state.isChangeCategoryName})
+        this.setState({isChangeCategoryName:!this.state.isChangeCategoryName})
+    };
+
+    onDeleteCategory = () =>
+    {
+        this.props.dispatch(handleDeleteCategory(this.props.match.params.id)).then(this.setState({isCategoryDelete:true}))
     };
 
     render() {
         const {Loading, Categories, Items} = this.props;
-        const {isChangeCategoryName,changeName} = this.state;
+        const {isChangeCategoryName,changeName,isCategoryDelete} = this.state;
         const category = Categories.find(category => category.id.toString() === this.props.match.params.id.toString());
+        if(isCategoryDelete)
+        {
+            return <Redirect to={'/'}/>
+        }
         return (
             <div>
                 {
@@ -58,13 +68,18 @@ class CategoryPage extends Component {
                                     <Grid.Column>
                                         {
                                             isChangeCategoryName ?
-                                                <Input name={'changeName'} value={changeName} onChange={this.handleValueChange}/>
+                                                <Input style={{paddingTop: 20}} name={'changeName'} value={changeName} onChange={this.handleValueChange}/>
                                                 :
                                                 <Header style={{paddingTop: 20}} as='h3'>Categories: {category.name}</Header>
                                         }
                                     </Grid.Column>
-                                    <Grid.Column>
+                                    <Grid.Column style={{marginTop:20}}>
+                                        <Button negative floated={'right'} onClick={this.onDeleteCategory}>Delete This Category</Button>
                                         <Button floated={'right'} positive={isChangeCategoryName} onClick={this.onClickChangeCategory}>{isChangeCategoryName ? 'Save':'Change Category Name'}</Button>
+                                        <Button icon labelPosition='left' as={Link} to={`/createitem/${category.id}`}>
+                                            <Icon name='plus' />
+                                            Add New Item
+                                        </Button>
                                     </Grid.Column>
                                 </Grid.Row>
                                 <Grid.Row>

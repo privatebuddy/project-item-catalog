@@ -36,6 +36,18 @@ export function getCategories()
     return requestDataFromServer(endPoint,'GET',null,'application/json');
 }
 
+export function createCategory(name='') {
+    const endPoint = `createcategory`;
+    const formData = new FormData();
+    formData.append('name', name);
+    return requestDataFromServer(endPoint,'POST',formData,'application/json');
+}
+
+export function deleteCategory(categoryId=0) {
+    const endPoint = `deletecategory/${categoryId}`;
+    return requestDataFromServer(endPoint,'DELETE',null,'application/json');
+}
+
 export function getItemsInCategory(categoryId=0)
 {
     const endPoint = `category/${categoryId}`;
@@ -52,6 +64,16 @@ export function updateCategoryName(categoryId=0,newName='') {
 export function getItemDetailById(itemId=0) {
     const endPoint = `item/${itemId}`;
     return requestDataFromServer(endPoint,'GET',null,'application/json');
+}
+
+export function createItem(name='',description='',categoryId=0)
+{
+    const endPoint = `createitem`;
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('description', description);
+    formData.append('category_id', categoryId);
+    return requestDataFromServer(endPoint,'POST',formData,'application/json');
 }
 
 export function updateItemDetail(itemId=0,name='',categoryId=0,description='') {

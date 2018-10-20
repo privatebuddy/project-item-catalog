@@ -17,6 +17,9 @@ class NavigationMenu extends Component {
                 <Menu.Item as={Link} to='/' >
                     Main Page
                 </Menu.Item>
+                <Menu.Item as={Link} to='/createcategory' >
+                    Add New Category
+                </Menu.Item>
                 {
                     User === undefined ?
                         <Menu.Item position='right' as={Link} to='/login'>

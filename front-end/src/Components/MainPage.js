@@ -36,28 +36,34 @@ class MainPage extends Component {
                                     <Menu text vertical size={'huge'}>
                                         <Menu.Item header>Categories</Menu.Item>
                                         {
-                                            Categories.map((category) => <Menu.Item
-                                                key={category.id}
-                                                name={category.name}
-                                                as={Link} to={`/categories/${category.id}`}
-                                            />)
+                                            Categories.length > 0 ?
+                                                Categories.map((category) => <Menu.Item
+                                                    key={category.id}
+                                                    name={category.name}
+                                                    as={Link} to={`/categories/${category.id}`}
+                                                />)
+                                                :
+                                                'No Category Add'
                                         }
                                     </Menu>
                                 </Grid.Column>
                                 <Grid.Column>
-                                    <Header style={{paddingTop: 20}} as='h3'>Items</Header>
+                                    <Header style={{paddingTop: 20}} as='h3'>Latest Items</Header>
                                     <Card.Group>
                                         {
-                                            LatestItem.map((item) =>
-                                                <Card key={item.id} fluid as={Link} to={`/items/${item.id}`}>
-                                                    <Card.Content>
-                                                        <Card.Header content={item.name}/>
-                                                        <Card.Meta>Category: {this.getCategoryNameById(item.categoryId)}</Card.Meta>
-                                                        <Card.Meta>Create Date:{item.createDate}</Card.Meta>
-                                                        <Card.Description
-                                                            content={item.description}/>
-                                                    </Card.Content>
-                                                </Card>)
+                                            LatestItem.length > 0 ?
+                                                LatestItem.map((item) =>
+                                                    <Card key={item.id} fluid as={Link} to={`/items/${item.id}`}>
+                                                        <Card.Content>
+                                                            <Card.Header content={item.name}/>
+                                                            <Card.Meta>Category: {this.getCategoryNameById(item.categoryId)}</Card.Meta>
+                                                            <Card.Meta>Create Date:{item.createDate}</Card.Meta>
+                                                            <Card.Description
+                                                                content={item.description}/>
+                                                        </Card.Content>
+                                                    </Card>)
+                                                :
+                                                null
                                         }
                                     </Card.Group>
                                 </Grid.Column>

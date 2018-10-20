@@ -175,7 +175,6 @@ def create_new_category():
 def delete_category(category_id):
     return_item = session.query(Item).filter_by(categoryid=category_id)
     for item in return_item:
-        print(item.id)
         session.delete(item)
     category = session.query(Category).filter_by(id=category_id).one()
     session.delete(category)

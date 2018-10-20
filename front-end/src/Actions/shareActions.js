@@ -5,7 +5,7 @@ import {
     logout,
     getCategories,
     getItemsInCategory,
-    updateCategoryName, getItemDetailById, updateItemDetail
+    updateCategoryName, getItemDetailById, updateItemDetail, deleteCategory, createCategory, createItem
 } from "../Utilities/DataRequest";
 import {receiveUser} from "./user";
 import {receiveItemDetail, receiveItems, receiveLatestItem} from "./items";
@@ -104,4 +104,39 @@ export function handleChangeItemDetail(itemId,name,categoryId,descriptions) {
             )
     }
 }
+
+export function handleDeleteCategory(categoryId) {
+    return (dispatch) => {
+        dispatch(showLoading());
+        return deleteCategory(categoryId)
+            .then((result) => getCategories()
+                .then((result) => {
+                    dispatch(receiveCategories(result.data.categories));
+                    dispatch(receiveLatestItem(result.data.latestItems));
+                    dispatch(hideLoading());
+                })
+            )
+    }
+}
+
+export function handleCreateCategory(name) {
+    return (dispatch) => {
+        dispatch(showLoading());
+        return createCategory(name)
+            .then((result) =>
+                dispatch(hideLoading())
+            )
+    }
+}
+
+export function handleCreateItem(name,description,categoryId) {
+    return (dispatch) => {
+        dispatch(showLoading());
+        return createItem(name,description,categoryId)
+            .then((result) =>
+                dispatch(hideLoading())
+            )
+    }
+}
+
 
