@@ -13,5 +13,10 @@ Project Dependency
 7. Redux-Thunk 2.3.0
 
 To Start Project
-1. yarn install
-2. yarn start
+1. use command promp or terminal to open yourdirectory/project-item-catalog/front-end
+2. download and install node.js 
+  -to use npm from https://www.npmjs.com/get-npm
+  -to use yarn https://yarnpkg.com/lang/en/docs/install/
+3. type npm install or yarn install
+4. type npm start or yarn start
+5. use project
