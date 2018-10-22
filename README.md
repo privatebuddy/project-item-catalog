@@ -15,7 +15,9 @@ How this project work
   - pip install -r requirements.txt
 5. run backend server
 6. use command promp or terminal to open yourdirectory/project-item-catalog/front-end
-7. download and install node.js to use npm from https://www.npmjs.com/get-npm
+7. download and install node.js
+  - to use npm from https://www.npmjs.com/get-npm
+  - to use yarn https://yarnpkg.com/lang/en/docs/install/
 8. type npm install or yarn install
 9. type npm start or yarn start
 10. use project
