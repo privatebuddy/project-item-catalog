@@ -4,7 +4,6 @@ from sqlalchemy import desc
 from flask_login import LoginManager, current_user, login_user, login_required, logout_user
 from wtforms import StringField, Form
 from wtforms.validators import DataRequired
-from flask_cors import CORS
 
 import datetime
 
@@ -14,7 +13,6 @@ app.config.update(dict(
     SECRET_KEY="hellowtfcsrfsk",
     WTF_CSRF_SECRET_KEY="hellowtfcsrf"
 ))
-CORS(app)
 
 
 class LoginForm(Form):
@@ -80,7 +78,9 @@ def create_new_user():
     session.add(new_user)
     session.commit()
 
-    return jsonify({'success': 200})
+    response = jsonify({'success': 200})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route('/login', methods=['POST'])
@@ -88,14 +88,22 @@ def login():
     form = LoginForm(request.form)
     if current_user.is_authenticated:
         user = session.query(User).filter_by(username=form.username.data).first()
-        return jsonify({'name': user.name, 'username': user.username})
+        response = jsonify({'name': user.name, 'username': user.username})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
     if form.validate():
         user = session.query(User).filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            return jsonify({'fail': 500})
+            response = jsonify({'success': 500})
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            return response
         login_user(user)
-        return jsonify({'name': user.name, 'username': user.username})
-    return jsonify({'fail': 200})
+        response = jsonify({'name': user.name, 'username': user.username})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
+    response = jsonify({'success': 200})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route("/logout")
@@ -115,7 +123,9 @@ def create_new_item():
     )
     session.add(new_item)
     session.commit()
-    return jsonify({'success': 200})
+    response = jsonify({'success': 200})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route('/deleteitem/<int:item_id>', methods=['PUT'])
@@ -123,7 +133,9 @@ def delete_item(item_id):
     return_item = session.query(Item).filter_by(id=item_id).one()
     session.delete(return_item)
     session.commit()
-    return jsonify({'success': 200})
+    response = jsonify({'success': 200})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route('/modifyitem/<int:item_id>', methods=['PUT'])
@@ -136,7 +148,9 @@ def modify_item(item_id):
             "createdate": datetime.datetime.now()
         })
     session.commit()
-    return jsonify({'success': 200})
+    response = jsonify({'success': 200})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route('/item/<int:item_id>', methods=['GET'])
@@ -144,7 +158,7 @@ def get_item_by_id(item_id):
     return_item = session.query(Item).filter_by(id=item_id).one()
     return_categories = session.query(Category).all()
     session.commit()
-    return jsonify({
+    response = jsonify({
         'item':
         {
             'id': return_item.id,
@@ -158,6 +172,8 @@ def get_item_by_id(item_id):
          'name': category.name,
          } for category in return_categories]
     })
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route('/createcategory', methods=['POST'])
@@ -168,7 +184,9 @@ def create_new_category():
     session.add(new_category)
     session.commit()
 
-    return jsonify({'success': 200})
+    response = jsonify({'success': 200})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route('/deletecategory/<int:category_id>', methods=['DELETE'])
@@ -179,14 +197,18 @@ def delete_category(category_id):
     category = session.query(Category).filter_by(id=category_id).one()
     session.delete(category)
     session.commit()
-    return jsonify({'success': 200})
+    response = jsonify({'success': 200})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route('/modifycategory/<int:category_id>', methods=['PUT'])
 def modify_category(category_id):
     session.query(Category).filter_by(id=category_id).update({"name": request.form['name']})
     session.commit()
-    return jsonify({'success': 200})
+    response = jsonify({'success': 200})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route('/category/<int:category_id>', methods=['GET'])
@@ -200,7 +222,9 @@ def get_all_item_in_category(category_id):
          'createDate': item.createdate
          } for item in items]
 
-    return jsonify(all_item)
+    response = jsonify(all_item)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route('/category/latest', methods=['GET'])
@@ -214,7 +238,9 @@ def get_all_item_in_category_by_latest():
          'createDate': item.createdate
          } for item in items]
 
-    return jsonify(all_item)
+    response = jsonify(all_item)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route('/category', methods=['GET'])
@@ -234,7 +260,9 @@ def get_all_category():
          'createDate': item.createdate
          } for item in items]
 
-    return jsonify({'categories': all_category, 'latestItems': all_item})
+    response = jsonify({'categories': all_category, 'latestItems': all_item})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 if __name__ == '__main__':
