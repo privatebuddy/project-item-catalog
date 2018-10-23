@@ -1,1 +1,1 @@
-export const server_path = "http://172.26.1.188:8080/";
+export const server_path = "http://127.0.0.1:8080/";

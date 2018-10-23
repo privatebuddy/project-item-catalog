@@ -2,38 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="deec99a3-8ad8-4d7c-9944-17d0ceafb989" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../back-end/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../back-end/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/asset-manifest.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/precache-manifest.a65831bd6b85fc1b4bed46839a31d30b.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/service-worker.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/css/1.c5a9f08f.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/css/1.c5a9f08f.chunk.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/css/main.484b97f8.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/css/main.484b97f8.chunk.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/1.254f49a5.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/1.254f49a5.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/main.842d2aa2.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/main.842d2aa2.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/runtime~main.229c360f.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/runtime~main.229c360f.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/brand-icons.13db00b7.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/brand-icons.a046592b.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/brand-icons.a1a749e8.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/brand-icons.c5ebe0b3.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/brand-icons.e8c322de.woff2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/flags.9c74e172.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/icons.0ab54153.woff2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/icons.8e3c7f55.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/icons.962a1bf3.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/icons.b87b9ba5.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/icons.faff9214.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/outline-icons.701ae6ab.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/outline-icons.82f60bd0.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/outline-icons.ad97afd3.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/outline-icons.cd6c777f.woff2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/outline-icons.ef60a4f6.woff" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Utilities/Constants/Constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utilities/Constants/Constants.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -67,12 +38,12 @@
     <session id="-340874410">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="4" />
+          <entry key="project.closed" value="6" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.2" value="2" />
           <entry key="project.open.time.4" value="1" />
-          <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="5" />
+          <entry key="project.open.time.6" value="2" />
+          <entry key="project.opened" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -89,18 +60,18 @@
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
         <counts>
-          <entry key="ESLintLanguageService" value="3" />
+          <entry key="ESLintLanguageService" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="gitignore" value="11" />
-          <entry key="js" value="1119" />
+          <entry key="js" value="1128" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JavaScript" value="1119" />
+          <entry key="JavaScript" value="1128" />
           <entry key="PLAIN_TEXT" value="11" />
         </counts>
       </usages-collector>
@@ -190,19 +161,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="9" column="2" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Utilities/Constants/Constants.js">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="33" selection-start-column="33" selection-end-column="33" />
+              <caret column="44" selection-start-column="44" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -251,8 +213,8 @@
         <option value="$PROJECT_DIR$/src/Actions/shareActions.js" />
         <option value="$PROJECT_DIR$/src/Components/CreateNewItemPage.js" />
         <option value="$PROJECT_DIR$/src/App.js" />
-        <option value="$PROJECT_DIR$/src/Utilities/Constants/Constants.js" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/Utilities/Constants/Constants.js" />
       </list>
     </option>
   </component>
@@ -274,8 +236,8 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1920" />
-    <option name="height" value="988" />
+    <option name="width" value="1440" />
+    <option name="height" value="825" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -385,18 +347,19 @@
       <workItem from="1540176438359" duration="121000" />
       <workItem from="1540265377407" duration="269000" />
       <workItem from="1540295418053" duration="2295000" />
-      <workItem from="1540301396535" duration="143000" />
+      <workItem from="1540301396535" duration="392000" />
+      <workItem from="1540306697315" duration="62000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21608000" />
+    <option name="totallyTimeSpent" value="21919000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1920" height="988" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="825" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1864139" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24947146" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -410,7 +373,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.12954545" />
+      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.16178522" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -592,17 +555,17 @@
     <entry file="file://$PROJECT_DIR$/build/static/js/1.254f49a5.chunk.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Utilities/Constants/Constants.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="33" selection-start-column="33" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
-          <caret line="9" column="2" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Utilities/Constants/Constants.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="44" selection-start-column="44" selection-end-column="44" />
         </state>
       </provider>
     </entry>

@@ -32,7 +32,7 @@
     <session id="-1880966699">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="11" />
+          <entry key="project.closed" value="12" />
           <entry key="project.open.time.0" value="2" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.3" value="2" />
@@ -252,11 +252,10 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="54" />
-    <option name="y" value="447" />
-    <option name="width" value="1920" />
-    <option name="height" value="988" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1440" />
+    <option name="height" value="825" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -346,15 +345,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1920" height="988" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="23" width="1440" height="808" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4985591" visible="true" weight="0.22257721" />
-      <window_info id="Structure" order="1" sideWeight="0.50144094" side_tool="true" visible="true" weight="0.22257721" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4990991" visible="true" weight="0.29899856" />
+      <window_info id="Structure" order="1" sideWeight="0.5009009" side_tool="true" visible="true" weight="0.29899856" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32924107" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49574015" visible="true" weight="0.22544643" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49570817" weight="0.2821229" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -362,7 +360,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" sideWeight="0.49946752" weight="0.32924107" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5042598" side_tool="true" visible="true" weight="0.22544643" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50429183" side_tool="true" visible="true" weight="0.22486034" />
       <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49574015" weight="0.234375" />
       <window_info anchor="bottom" id="Python Console" order="12" sideWeight="0.49946752" weight="0.32924107" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
