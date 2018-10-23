@@ -10,9 +10,11 @@ import CategoryPage from "./Components/CategoryPage";
 import ItemPage from "./Components/ItemPage";
 import CreateCategoryPage from "./Components/CreateCategoryPage";
 import CreateNewItemPage from "./Components/CreateNewItemPage";
+import {receiveUser} from "./Actions/user";
 
 class App extends Component {
     componentDidMount() {
+        this.props.dispatch(receiveUser({'username':'admin','name':'admin'}))
     }
 
     render() {
