@@ -3,6 +3,38 @@
   <component name="ChangeListManager">
     <list default="true" id="deec99a3-8ad8-4d7c-9944-17d0ceafb989" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/asset-manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/precache-manifest.a65831bd6b85fc1b4bed46839a31d30b.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/service-worker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/css/1.c5a9f08f.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/css/1.c5a9f08f.chunk.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/css/main.484b97f8.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/css/main.484b97f8.chunk.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/1.254f49a5.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/1.254f49a5.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/main.842d2aa2.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/main.842d2aa2.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/runtime~main.229c360f.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/runtime~main.229c360f.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/brand-icons.13db00b7.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/brand-icons.a046592b.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/brand-icons.a1a749e8.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/brand-icons.c5ebe0b3.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/brand-icons.e8c322de.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/flags.9c74e172.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/icons.0ab54153.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/icons.8e3c7f55.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/icons.962a1bf3.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/icons.b87b9ba5.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/icons.faff9214.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/outline-icons.701ae6ab.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/outline-icons.82f60bd0.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/outline-icons.ad97afd3.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/outline-icons.cd6c777f.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/outline-icons.ef60a4f6.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utilities/Constants/Constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utilities/Constants/Constants.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -35,41 +67,41 @@
     <session id="-340874410">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="4" />
           <entry key="project.open.time.0" value="1" />
-          <entry key="project.open.time.2" value="1" />
+          <entry key="project.open.time.2" value="2" />
           <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.opened" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="gitignore" value="1" />
-          <entry key="js" value="23" />
+          <entry key="js" value="24" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JavaScript" value="23" />
+          <entry key="JavaScript" value="24" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
         <counts>
-          <entry key="ESLintLanguageService" value="2" />
+          <entry key="ESLintLanguageService" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="gitignore" value="8" />
-          <entry key="js" value="1084" />
+          <entry key="gitignore" value="11" />
+          <entry key="js" value="1119" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JavaScript" value="1084" />
-          <entry key="PLAIN_TEXT" value="8" />
+          <entry key="JavaScript" value="1119" />
+          <entry key="PLAIN_TEXT" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
@@ -161,7 +193,16 @@
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="207">
-              <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
+              <caret line="9" column="2" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Utilities/Constants/Constants.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="33" selection-start-column="33" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -257,19 +298,6 @@
             <path>
               <item name="front-end" type="b2602c69:ProjectViewProjectNode" />
               <item name="front-end" type="462c0819:PsiDirectoryNode" />
-              <item name="build" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="front-end" type="b2602c69:ProjectViewProjectNode" />
-              <item name="front-end" type="462c0819:PsiDirectoryNode" />
-              <item name="build" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="front-end" type="b2602c69:ProjectViewProjectNode" />
-              <item name="front-end" type="462c0819:PsiDirectoryNode" />
               <item name="public" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -356,12 +384,13 @@
       <workItem from="1540023533340" duration="2598000" />
       <workItem from="1540176438359" duration="121000" />
       <workItem from="1540265377407" duration="269000" />
-      <workItem from="1540295418053" duration="1229000" />
+      <workItem from="1540295418053" duration="2295000" />
+      <workItem from="1540301396535" duration="143000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20399000" />
+    <option name="totallyTimeSpent" value="21608000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="988" extended-state="0" />
@@ -566,14 +595,14 @@
     <entry file="file://$PROJECT_DIR$/src/Utilities/Constants/Constants.js">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="45" selection-start-column="45" selection-end-column="45" />
+          <caret column="33" selection-start-column="33" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
-          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
+          <caret line="9" column="2" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
         </state>
       </provider>
     </entry>

@@ -1,1 +1,1 @@
-export const server_path = "http://3.0.57.218/";
+export const server_path = "http://172.26.1.188:8080/";
