@@ -22,3 +22,6 @@ How this project work
 9. type npm start or yarn start
 10. use project
 
+
+NOTE: to use google authen front-end need to be on 	http://localhost:3000
+
