@@ -10,6 +10,19 @@ class User(UserMixin, Base):
     name = Column(Text)
     username = Column(Text)
     password = Column(Text)
+    googleid = Column(Text)
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
