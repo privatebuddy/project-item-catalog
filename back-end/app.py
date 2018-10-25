@@ -3,6 +3,7 @@ from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
+
 errors = {
     'ExpiredSignatureError': {
         'message': "Token Expired",
@@ -34,7 +35,8 @@ app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
 
-import views, models, endpoints
+import models
+import endpoints
 
 api.add_resource(endpoints.UserRegistrationWithGoggle, '/creategoogleuser')
 api.add_resource(endpoints.UserRegistration, '/createuser')
