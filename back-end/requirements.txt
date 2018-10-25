@@ -3,3 +3,5 @@ sqlalchemy
 wtforms
 flask_login
 flask_cors
+google-auth
+requests

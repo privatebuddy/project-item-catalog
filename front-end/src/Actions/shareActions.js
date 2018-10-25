@@ -33,7 +33,7 @@ export function handleLogin(username,password) {
         dispatch(showLoading());
         return login(username,password)
             .then((result) => {
-                if(result.data.login_status !== "fail")
+                if(result.data[0].login_status.toString() !== '0')
                 {
                     dispatch(receiveUser(result.data));
                 }
@@ -155,7 +155,7 @@ export function handleLoginWithGoogle(name,username,userId,token) {
         dispatch(showLoading());
         return loginWithGoogle(name,username,userId,token)
             .then((result) => {
-                if(result.data.login_status !== "fail")
+                if(result.data[0].login_status.toString() !== '0')
                 {
                     dispatch(receiveUser(result.data));
                 }

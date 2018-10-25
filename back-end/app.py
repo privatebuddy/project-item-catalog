@@ -2,7 +2,7 @@ import requests
 from flask import Flask, jsonify, request
 from Database import session, User, Item, Category
 from sqlalchemy import desc
-from flask_login import LoginManager, current_user, login_user, login_required, logout_user
+from flask_login import LoginManager, current_user, login_user, logout_user
 from wtforms import StringField, Form
 from wtforms.validators import DataRequired
 from flask_cors import CORS
@@ -46,8 +46,9 @@ def check_token(token):
     id_info = id_token.verify_oauth2_token(token, requests.Request(),
                                            '618789413227-rfh1jsedtnhs052ofiko10l639ak5h7v.apps.googleusercontent.com')
     if id_info['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
-        return False
-    return True
+        response = jsonify({'login_status': 'fail'})
+        return response
+    return id_info
 
 @app.errorhandler(InvalidUsage)
 def handle_invalid_usage(error):
@@ -98,25 +99,27 @@ def create_new_user():
 @app.route('/logingoogle', methods=['POST'])
 def login_with_google():
 
-    if check_token(request.form['token']):
-        user = session.query(User).filter_by(googleid=request.form['user_id']).all()
-        if len(user) > 0:
-            login_user(user[0])
-            response = jsonify({'login_status': 'success'}, {'name': user[0].name, 'username': user[0].username})
+    user = check_token(request.form['token'])
+
+    if user is not None:
+        store_user = session.query(User).filter_by(googleid=user['sub']).first()
+        if store_user is not None:
+            login_user(store_user)
+            response = jsonify({'login_status': 1}, {'username': store_user.username})
             return response
         else:
             new_user = User(
                 name=request.form['name'],
                 username=request.form['username'],
-                googleid=request.form['user_id']
+                googleid=user['sub']
             )
             session.add(new_user)
             session.commit()
             login_user(new_user)
-            response = jsonify({'login_status': 'success'}, {'name': new_user.name, 'username': new_user.username})
+            response = jsonify({'login_status': 1}, {'name': new_user.name, 'username': new_user.username})
             return response
     else:
-        response = jsonify({'login_status': 'fail'})
+        response = jsonify([{'login_status': 0}])
         return response
 
 
@@ -127,19 +130,19 @@ def login():
     if current_user.is_authenticated:
         user = session.query(User).filter_by(username=form.username.data).first()
         login_user(user)
-        response = jsonify({'login_status': 'fail'}, {'name': user.name, 'username': user.username})
+        response = jsonify({'login_status': 1}, {'name': user.name, 'username': user.username})
         return response
 
     if form.validate():
         user = session.query(User).filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            response = jsonify({'login_status': 'fail'})
+            response = jsonify([{'login_status': 0}])
             return response
 
         login_user(user)
-        response = jsonify({'login_status': 'fail'}, {'name': user.name, 'username': user.username})
+        response = jsonify({'login_status': 1}, {'name': user.name, 'username': user.username})
         return response
-    response = jsonify({'login_status': 'fail'})
+    response = jsonify([{'login_status': 0}])
     return response
 
 
