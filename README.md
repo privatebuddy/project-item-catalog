@@ -23,5 +23,9 @@ How this project work
 10. use project
 
 
-NOTE: to use google authen front-end need to be on 	http://localhost:3000
+NOTE: to use google authen front-end need to be on 	http://localhost:3000 and config back-end path at
+
+yourdirectory/project-item-catalog/front-end/src/Utilities/Constants/Constants.js
+
+then change it to your open path (Default is http://localhost:5000)
 
