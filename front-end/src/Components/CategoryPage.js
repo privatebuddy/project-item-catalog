@@ -13,7 +13,7 @@ class CategoryPage extends Component {
     };
 
     componentDidMount() {
-        this.props.dispatch(handleGetItemsInCategory(this.props.match.params.id))
+        this.props.dispatch(handleGetItemsInCategory(this.props.match.params.id,this.props.User.access_token))
     }
 
     handleValueChange = (e, {name, value}) => this.setState({[name]: value});
@@ -35,7 +35,7 @@ class CategoryPage extends Component {
     {
         if(this.state.isChangeCategoryName)
         {
-            this.props.dispatch(handleChangeCategoryName(this.props.match.params.id,this.state.changeName));
+            this.props.dispatch(handleChangeCategoryName(this.props.match.params.id,this.state.changeName,this.props.User.access_token));
         }else
         {
             const category = this.props.Categories.find(category => category.id.toString() === this.props.match.params.id.toString());
@@ -47,7 +47,7 @@ class CategoryPage extends Component {
 
     onDeleteCategory = () =>
     {
-        this.props.dispatch(handleDeleteCategory(this.props.match.params.id)).then(this.setState({isCategoryDelete:true}))
+        this.props.dispatch(handleDeleteCategory(this.props.match.params.id,this.props.User.access_token)).then(this.setState({isCategoryDelete:true}))
     };
 
     render() {

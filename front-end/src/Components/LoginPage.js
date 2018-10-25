@@ -68,7 +68,6 @@ class LoginPage extends Component {
 
         if(User !== undefined)
         {
-            console.log(User)
             if(this.props.location.state !== undefined)
             {
                 return (<Redirect to={this.props.location.pathname} />);

@@ -45,6 +45,15 @@ api.add_resource(endpoints.UserLogoutRefresh, '/logout/refresh')
 api.add_resource(endpoints.TokenRefresh, '/token/refresh')
 api.add_resource(endpoints.AllUsers, '/users')
 api.add_resource(endpoints.SecretResource, '/secret')
+api.add_resource(endpoints.GetCategories, '/category')
+api.add_resource(endpoints.CreateCategory, '/createcategory')
+api.add_resource(endpoints.GetCategoryItems, '/getcategory', endpoint='categories')
+api.add_resource(endpoints.ModifyCategory, '/updatecategory')
+api.add_resource(endpoints.DeleteCategory, '/deletecategory', endpoint='deletecategory')
+api.add_resource(endpoints.GetItem, '/getitem', endpoint='getitem')
+api.add_resource(endpoints.CreateItem, '/createitem')
+api.add_resource(endpoints.ModifyItem, '/updateitem')
+api.add_resource(endpoints.DeleteItem, '/deleteitem', endpoint='deleteitem')
 
 
 @app.before_first_request

@@ -62,7 +62,7 @@ class RevokedTokenModel(db.Model):
         return bool(query)
 
 
-class Category(db.Model):
+class CategoryModel(db.Model):
     __tablename__ = 'category'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -72,8 +72,12 @@ class Category(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def update_category(self, name):
+        self.name = name
+        db.session.commit()
 
-class Item(db.Model):
+
+class ItemModel(db.Model):
     __tablename__ = "item"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
@@ -83,4 +87,10 @@ class Item(db.Model):
 
     def save_to_db(self):
         db.session.add(self)
+        db.session.commit()
+
+    def update_item(self, name, description, categoryid):
+        self.name = name
+        self.description = description
+        self.categoryid = categoryid
         db.session.commit()

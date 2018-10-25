@@ -32,7 +32,7 @@ class CreateCategoryPage extends Component {
     {
         if(this.checkValidation())
         {
-            this.props.dispatch(handleCreateCategory(this.state.categoryName)).then(() => this.setState({isFinish:true}))
+            this.props.dispatch(handleCreateCategory(this.state.categoryName,this.props.User.access_token)).then(() => this.setState({isFinish:true}))
         }
     };
 

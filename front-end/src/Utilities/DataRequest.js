@@ -37,83 +37,87 @@ export function login(username='',password='')
 
     return requestDataFromServer(endPoint,'POST',formData,'application/json');
 }
-export function logout(username='')
+export function logout(username='',token='')
 {
-    const endPoint = `logout`;
+    const endPoint = `logout/access`;
     const formData = new FormData();
     formData.append('username', username);
 
-    return requestDataFromServer(endPoint,'POST',formData,'application/json');
+    return requestDataFromServer(endPoint,'POST',formData,'application/json',token);
 }
 
-export function getCategories()
+export function getCategories(token='')
 {
     const endPoint = `category`;
-    return requestDataFromServer(endPoint,'GET',null,'application/json');
+    return requestDataFromServer(endPoint,'GET',null,'application/json',token);
 }
 
-export function createCategory(name='') {
+export function createCategory(name='',token='') {
     const endPoint = `createcategory`;
     const formData = new FormData();
     formData.append('name', name);
-    return requestDataFromServer(endPoint,'POST',formData,'application/json');
+    return requestDataFromServer(endPoint,'POST',formData,'application/json',token);
 }
 
-export function deleteCategory(categoryId=0) {
-    const endPoint = `deletecategory/${categoryId}`;
-    return requestDataFromServer(endPoint,'DELETE',null,'application/json');
+export function deleteCategory(categoryId=0,token) {
+    const endPoint = `deletecategory?id=${categoryId}`;
+    return requestDataFromServer(endPoint,'DELETE',null,'application/json',token);
 }
 
-export function getItemsInCategory(categoryId=0)
+export function getItemsInCategory(categoryId=0,token)
 {
-    const endPoint = `category/${categoryId}`;
-    return requestDataFromServer(endPoint,'GET',null,'application/json');
+    const endPoint = `getcategory?categoryId=${categoryId}`;
+    return requestDataFromServer(endPoint,'GET',null,'application/json',token);
 }
 
-export function updateCategoryName(categoryId=0,newName='') {
-    const endPoint = `modifycategory/${categoryId}`;
+export function updateCategoryName(categoryId=0,newName='',token='') {
+    const endPoint = `updatecategory`;
     const formData = new FormData();
+    formData.append('id', categoryId);
     formData.append('name', newName);
-    return requestDataFromServer(endPoint,'PUT',formData,'application/json');
+    return requestDataFromServer(endPoint,'PUT',formData,'application/json',token);
 }
 
-export function getItemDetailById(itemId=0) {
-    const endPoint = `item/${itemId}`;
-    return requestDataFromServer(endPoint,'GET',null,'application/json');
+export function getItemDetailById(itemId=0,token) {
+    const endPoint = `getitem?id=${itemId}`;
+    return requestDataFromServer(endPoint,'GET',null,'application/json',token);
 }
 
-export function createItem(name='',description='',categoryId=0)
+export function createItem(name='',description='',categoryId=0,token='')
 {
     const endPoint = `createitem`;
     const formData = new FormData();
     formData.append('name', name);
     formData.append('description', description);
     formData.append('category_id', categoryId);
-    return requestDataFromServer(endPoint,'POST',formData,'application/json');
+    return requestDataFromServer(endPoint,'POST',formData,'application/json',token);
 }
 
-export function updateItemDetail(itemId=0,name='',categoryId=0,description='') {
-    const endPoint = `modifyitem/${itemId}`;
+export function updateItemDetail(itemId=0,name='',categoryId=0,description='',token='') {
+    const endPoint = `updateitem`;
     const formData = new FormData();
+    formData.append('id', itemId);
     formData.append('name', name);
     formData.append('categoryid', categoryId.toString());
     formData.append('description', description);
-    return requestDataFromServer(endPoint,'PUT',formData,'application/json');
+    return requestDataFromServer(endPoint,'PUT',formData,'application/json',token);
 }
 
-export function deleteItem(itemId=0) {
-    const endPoint = `deleteitem/${itemId}`;
-    return requestDataFromServer(endPoint,'PUT',null,'application/json');
+export function deleteItem(itemId=0,token='') {
+    const endPoint = `deleteitem?id=${itemId}`;
+    return requestDataFromServer(endPoint,'DELETE',null,'application/json',token);
 }
 
-function requestDataFromServer(endPoint='',method='',data=null,contentType='')
+function requestDataFromServer(endPoint='',method='',data=null,contentType='',access_token='')
 {
+    console.log(access_token)
     return axios({
         url: server_path+endPoint,
         method: method,
-        headers: new Headers({
+        headers: {
             'Content-Type': contentType,
-        }),
+            'Authorization': `Bearer ${access_token}`
+        },
         data: data
     }).catch(function (error) {
         if (error.response) {

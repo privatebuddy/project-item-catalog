@@ -16,7 +16,7 @@ class ItemPage extends Component {
     };
 
     componentDidMount() {
-        this.props.dispatch(handleGetItemDetailById(this.props.match.params.id))
+        this.props.dispatch(handleGetItemDetailById(this.props.match.params.id,this.props.User.access_token))
     }
 
     handleValueChange = (e, {name, value}) => this.setState({[name]: value});
@@ -38,7 +38,7 @@ class ItemPage extends Component {
     onClickModify = () => {
         if (this.state.isChangeDetail) {
             if (this.checkValidation()) {
-                this.props.dispatch(handleChangeItemDetail(this.props.match.params.id, this.state.changeName, this.state.changCategoryType, this.state.changeDetail));
+                this.props.dispatch(handleChangeItemDetail(this.props.match.params.id, this.state.changeName, this.state.changCategoryType, this.state.changeDetail,this.props.User.access_token));
                 this.setState({isChangeDetail: !this.state.isChangeDetail})
             }
         } else {
@@ -49,12 +49,10 @@ class ItemPage extends Component {
             })
             this.setState({isChangeDetail: !this.state.isChangeDetail})
         }
-
-
     };
 
     onDeleteItem = () => {
-        this.props.dispatch(handleDeleteItem(this.props.BrowseItem.categoryId)).then(() => this.setState({isDelete:true}))
+        this.props.dispatch(handleDeleteItem(this.props.BrowseItem.categoryId,this.props.User.access_token)).then(() => this.setState({isDelete:true}))
     };
 
     checkValidation = () => {

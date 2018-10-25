@@ -64,6 +64,7 @@ const PrivateRoute = ({component: Component, ...rest}) => (
 );
 
 function mapStateToProps({userData}) {
+    console.log(userData.user)
     authenticationCheck.authenticate(userData.user !== undefined);
     return {
         isLogin: userData.user !== undefined,

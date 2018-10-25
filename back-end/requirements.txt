@@ -1,7 +1,9 @@
 flask
-sqlalchemy
+flask_sqlalchemy
+flask_restful
+flask_jwt_extended
 wtforms
-flask_login
 flask_cors
 google-auth
 requests
+passlib

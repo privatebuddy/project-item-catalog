@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 class MainPage extends Component {
 
     componentDidMount() {
-        this.props.dispatch(handleGetMainPageData())
+        this.props.dispatch(handleGetMainPageData(this.props.User.access_token))
     }
 
     getCategoryNameById = (id) =>

@@ -1,11 +1,13 @@
-from models import UserModel,RevokedTokenModel
+from models import UserModel,RevokedTokenModel,CategoryModel,ItemModel
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from wtforms import StringField, Form
 from wtforms.validators import DataRequired
-from flask import request
+from flask import request,jsonify
+from app import db
+import datetime
 
 GOOGLE_CLIENT_ID = '618789413227-rfh1jsedtnhs052ofiko10l639ak5h7v.apps.googleusercontent.com'
 
@@ -178,11 +180,137 @@ class AllUsers(Resource):
 
 
 class SecretResource(Resource):
-    # @jwt_required
+    @jwt_required
     def get(self):
         return {
             'answer': 42
         }
 
 
+class GetCategories(Resource):
+    @jwt_required
+    def get(self):
+        categories = CategoryModel.query.all()
+        all_category = [
+            {'id': category.id,
+             'name': category.name,
+             } for category in categories]
 
+        items = ItemModel.query.order_by(ItemModel.id.desc()).limit(10).all()
+        all_item = [
+            {'id': item.id,
+             'name': item.name,
+             'description': item.description,
+             'categoryId': item.categoryid,
+             'createDate': item.createdate
+             } for item in items]
+
+        return {'categories': all_category, 'latestItems': all_item}
+
+
+class CreateCategory(Resource):
+    @jwt_required
+    def post(self):
+        new_category = CategoryModel(
+            name=request.form['name'],
+        )
+        new_category.save_to_db()
+
+        return {'status': 200}
+
+
+class GetCategoryItems(Resource):
+    @jwt_required
+    def get(self):
+        args = request.args
+        items = ItemModel.query.filter_by(categoryid=args['categoryId'])
+        all_item = [
+            {'id': item.id,
+             'name': item.name,
+             'description': item.description,
+             'categoryId': item.categoryid,
+             'createDate': item.createdate
+             } for item in items]
+
+        response = jsonify(all_item)
+        return response
+
+
+class ModifyCategory(Resource):
+    @jwt_required
+    def put(self):
+        category = CategoryModel.query.filter_by(id=request.form['id']).first()
+        category.update_category(request.form['name'])
+        response = jsonify({'success': 200})
+        return response
+
+
+class DeleteCategory(Resource):
+    @jwt_required
+    def delete(self):
+        args = request.args
+        items = ItemModel.query.filter_by(categoryid=args['id']).all()
+        category = CategoryModel.query.filter_by(id=args['id']).first()
+        for item in items:
+            db.session.delete(item)
+        db.session.delete(category)
+        db.session.commit()
+        response = jsonify({'success': 200})
+        return response
+
+
+class GetItem(Resource):
+    @jwt_required
+    def get(self):
+        args = request.args
+        return_item = ItemModel.query.filter_by(id=args['id']).first()
+        return_categories = CategoryModel.query.all()
+        return jsonify({
+            'item':
+            {
+                'id': return_item.id,
+                'name': return_item.name,
+                'description': return_item.description,
+                'categoryId': return_item.categoryid,
+                'createDate': return_item.createdate
+            },
+            'categories': [
+                {
+                    'id': category.id,
+                    'name': category.name,
+                } for category in return_categories]
+        })
+
+
+class CreateItem(Resource):
+    @jwt_required
+    def post(self):
+        new_item = ItemModel(
+            name=request.form['name'],
+            description=request.form['description'],
+            categoryid=request.form['category_id'],
+            createdate=datetime.datetime.now()
+        )
+        new_item.save_to_db()
+        response = jsonify({'success': 200})
+        return response
+
+
+class ModifyItem(Resource):
+    @jwt_required
+    def put(self):
+        item = ItemModel.query.filter_by(id=request.form['id']).first()
+        item.update_item(request.form['name'], request.form['description'], request.form['categoryid'])
+        response = jsonify({'success': 200})
+        return response
+
+
+class DeleteItem(Resource):
+    @jwt_required
+    def delete(self):
+        args = request.args
+        item = ItemModel.query.filter_by(id=args['id']).first()
+        db.session.delete(item)
+        db.session.commit()
+        response = jsonify({'success': 200})
+        return response

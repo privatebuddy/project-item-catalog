@@ -33,19 +33,16 @@ export function handleLogin(username,password) {
         dispatch(showLoading());
         return login(username,password)
             .then((result) => {
-                if(result.data[0].login_status.toString() !== '0')
-                {
-                    dispatch(receiveUser(result.data));
-                }
+                dispatch(receiveUser(result.data));
                 dispatch(hideLoading());
             })
     }
 }
 
-export function handleLogout(username) {
+export function handleLogout(username,token) {
     return (dispatch) => {
         dispatch(showLoading());
-        return logout(username)
+        return logout(username,token)
             .then((result) => {
                 dispatch(receiveUser(undefined));
                 dispatch(hideLoading());
@@ -53,10 +50,10 @@ export function handleLogout(username) {
     }
 }
 
-export function handleGetMainPageData() {
+export function handleGetMainPageData(token='') {
     return (dispatch) => {
         dispatch(showLoading());
-        return getCategories()
+        return getCategories(token)
             .then((result) => {
                 dispatch(receiveCategories(result.data.categories));
                 dispatch(receiveLatestItem(result.data.latestItems));
@@ -65,10 +62,10 @@ export function handleGetMainPageData() {
     }
 }
 
-export function handleGetItemsInCategory(categoryId) {
+export function handleGetItemsInCategory(categoryId,token) {
     return (dispatch) => {
         dispatch(showLoading());
-        return getItemsInCategory(categoryId)
+        return getItemsInCategory(categoryId,token)
             .then((result) => {
                 dispatch(receiveItems(result.data));
                 dispatch(hideLoading());
@@ -76,11 +73,11 @@ export function handleGetItemsInCategory(categoryId) {
     }
 }
 
-export function handleChangeCategoryName(categoryId,name) {
+export function handleChangeCategoryName(categoryId,name,token) {
     return (dispatch) => {
         dispatch(showLoading());
-        return updateCategoryName(categoryId,name)
-            .then((result) => getCategories()
+        return updateCategoryName(categoryId,name,token)
+            .then((result) => getCategories(token)
                 .then((result) => {
                 dispatch(receiveCategories(result.data.categories));
                 dispatch(receiveLatestItem(result.data.latestItems));
@@ -89,10 +86,10 @@ export function handleChangeCategoryName(categoryId,name) {
     }
 }
 
-export function handleGetItemDetailById(itemId) {
+export function handleGetItemDetailById(itemId,token) {
     return (dispatch) => {
         dispatch(showLoading());
-        return getItemDetailById(itemId)
+        return getItemDetailById(itemId,token)
             .then((result) => {
                 dispatch(receiveItemDetail(result.data.item));
                 dispatch(receiveCategories(result.data.categories));
@@ -101,11 +98,11 @@ export function handleGetItemDetailById(itemId) {
     }
 }
 
-export function handleChangeItemDetail(itemId,name,categoryId,descriptions) {
+export function handleChangeItemDetail(itemId,name,categoryId,descriptions,token) {
     return (dispatch) => {
         dispatch(showLoading());
-        return updateItemDetail(itemId,name,categoryId,descriptions)
-            .then((result) => getItemDetailById(itemId)
+        return updateItemDetail(itemId,name,categoryId,descriptions,token)
+            .then((result) => getItemDetailById(itemId,token)
                 .then((result) => {
                     dispatch(receiveItemDetail(result.data.item));
                     dispatch(receiveCategories(result.data.categories));
@@ -115,11 +112,11 @@ export function handleChangeItemDetail(itemId,name,categoryId,descriptions) {
     }
 }
 
-export function handleDeleteCategory(categoryId) {
+export function handleDeleteCategory(categoryId,token) {
     return (dispatch) => {
         dispatch(showLoading());
-        return deleteCategory(categoryId)
-            .then((result) => getCategories()
+        return deleteCategory(categoryId,token)
+            .then((result) => getCategories(token)
                 .then((result) => {
                     dispatch(receiveCategories(result.data.categories));
                     dispatch(receiveLatestItem(result.data.latestItems));
@@ -129,10 +126,10 @@ export function handleDeleteCategory(categoryId) {
     }
 }
 
-export function handleCreateCategory(name) {
+export function handleCreateCategory(name,token) {
     return (dispatch) => {
         dispatch(showLoading());
-        return createCategory(name)
+        return createCategory(name,token)
             .then((result) =>
                 dispatch(hideLoading())
             )
@@ -172,10 +169,10 @@ export function handleRegisterWithGoogle(token) {
     }
 }
 
-export function handleDeleteItem(itemId) {
+export function handleDeleteItem(itemId,token) {
     return (dispatch) => {
         dispatch(showLoading());
-        return deleteItem(itemId)
+        return deleteItem(itemId,token)
             .then((result) =>
                 dispatch(hideLoading())
             )

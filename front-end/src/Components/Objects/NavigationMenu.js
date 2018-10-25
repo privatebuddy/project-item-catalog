@@ -7,7 +7,7 @@ class NavigationMenu extends Component {
 
     onLogout = () =>
     {
-        this.props.dispatch(handleLogout(this.props.User.username));
+        this.props.dispatch(handleLogout(this.props.User.username,this.props.User.access_token));
     };
 
     render() {
