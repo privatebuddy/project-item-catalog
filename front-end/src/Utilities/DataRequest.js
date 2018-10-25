@@ -3,22 +3,26 @@ import {server_path} from "./Constants/Constants";
 
 
 export function createUser(name='', username='', password='') {
-    const endPoint = `createnewuser`;
+    const endPoint = `createuser`;
     const formData = new FormData();
     formData.append('name', name);
     formData.append('username', username);
     formData.append('password', password);
-
+    formData.append('type', '1');
     return requestDataFromServer(endPoint,'POST',formData,'application/json');
 }
 
-export function loginWithGoogle(name='', username='', userId='', token='')
+export function createUserWithGoogle(token='') {
+    const endPoint = `creategoogleuser`;
+    const formData = new FormData();
+    formData.append('token', token);
+    return requestDataFromServer(endPoint,'POST',formData,'application/json');
+}
+
+export function loginWithGoogle(token='')
 {
     const endPoint = `logingoogle`;
     const formData = new FormData();
-    formData.append('name', name);
-    formData.append('username', username);
-    formData.append('user_id', userId);
     formData.append('token', token);
 
     return requestDataFromServer(endPoint,'POST',formData,'application/json');
@@ -28,7 +32,6 @@ export function login(username='',password='')
 {
     const endPoint = `login`;
     const formData = new FormData();
-    formData.append('name', username);
     formData.append('username', username);
     formData.append('password', password);
 

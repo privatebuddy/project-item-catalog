@@ -2,7 +2,12 @@ import React, {Component} from 'react';
 import {Button, Form, Grid, Header, Segment,Icon} from 'semantic-ui-react'
 import connect from "react-redux/es/connect/connect";
 import { Redirect} from 'react-router-dom';
-import {handleCreateNewUser, handleLogin, handleLoginWithGoogle} from "../Actions/shareActions";
+import {
+    handleCreateNewUser,
+    handleLogin,
+    handleLoginWithGoogle,
+    handleRegisterWithGoogle
+} from "../Actions/shareActions";
 import GoogleLogin from 'react-google-login';
 class LoginPage extends Component {
 
@@ -34,10 +39,26 @@ class LoginPage extends Component {
 
     onSignIn = (googleUser) =>
     {
-        const profile = googleUser.getBasicProfile();
         const id_token = googleUser.getAuthResponse().id_token;
 
-        this.props.dispatch(handleLoginWithGoogle(profile.getName(),profile.getEmail(),profile.getId(),id_token));
+        this.props.dispatch(handleLoginWithGoogle(id_token));
+    };
+
+    onSignInError = () =>
+    {
+
+    };
+
+    onSignUpWithGoogle = (googleUser) =>
+    {
+        const id_token = googleUser.getAuthResponse().id_token;
+
+        this.props.dispatch(handleRegisterWithGoogle(id_token));
+    };
+
+    onSignUpError = () =>
+    {
+
     };
 
 
@@ -47,11 +68,13 @@ class LoginPage extends Component {
 
         if(User !== undefined)
         {
+            console.log(User)
             if(this.props.location.state !== undefined)
             {
                 return (<Redirect to={this.props.location.pathname} />);
             }else
             {
+
                 return (<Redirect to={"/"} />);
             }
         }
@@ -109,18 +132,31 @@ class LoginPage extends Component {
                                         <Button color='teal' fluid size='large' onClick={this.onLogin}>
                                             Login
                                         </Button>
+                                        <br/>
+                                        <Button fluid color='google plus' as={GoogleLogin} clientId="618789413227-rfh1jsedtnhs052ofiko10l639ak5h7v.apps.googleusercontent.com"
+                                                buttonText="Login"
+                                                onSuccess={this.onSignIn}
+                                                onFailure={this.onSignInError}>
+                                            <Icon name='google' /> Login With Google
+                                        </Button>
                                     </Segment>
                                 </Form>
                         }
                         <br/>
-                        <Button fluid color='google plus' as={GoogleLogin} clientId="618789413227-rfh1jsedtnhs052ofiko10l639ak5h7v.apps.googleusercontent.com"
-                                buttonText="Login"
-                                onSuccess={this.onSignIn}
-                                onFailure={this.onSignIn}>
-                            <Icon name='google' /> Login With Google
-                        </Button>
-                        <br/>
-                        <Button onClick={() => this.setState({isSignUp:!isSignUp})} fluid>Sign up</Button>
+                        <Grid columns={2}>
+                            <Grid.Column>
+                                <Button onClick={() => this.setState({isSignUp:!isSignUp})} fluid>Sign up</Button>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Button fluid color='google plus' as={GoogleLogin} clientId="618789413227-rfh1jsedtnhs052ofiko10l639ak5h7v.apps.googleusercontent.com"
+                                        buttonText="Login"
+                                        onSuccess={this.onSignUpWithGoogle}
+                                        onFailure={this.onSignUpError}>
+                                    <Icon name='google' /> Sign-up with Google
+                                </Button>
+                            </Grid.Column>
+                        </Grid>
+
                     </Grid.Column>
                 </Grid>
             </div>

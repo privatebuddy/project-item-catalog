@@ -12,7 +12,7 @@ import {
     createCategory,
     createItem,
     loginWithGoogle,
-    deleteItem
+    deleteItem, createUserWithGoogle
 } from "../Utilities/DataRequest";
 import {receiveUser} from "./user";
 import {receiveItemDetail, receiveItems, receiveLatestItem} from "./items";
@@ -150,15 +150,23 @@ export function handleCreateItem(name,description,categoryId) {
 }
 
 
-export function handleLoginWithGoogle(name,username,userId,token) {
+export function handleLoginWithGoogle(token) {
     return (dispatch) => {
         dispatch(showLoading());
-        return loginWithGoogle(name,username,userId,token)
+        return loginWithGoogle(token)
             .then((result) => {
-                if(result.data[0].login_status.toString() !== '0')
-                {
-                    dispatch(receiveUser(result.data));
-                }
+                dispatch(receiveUser(result.data));
+                dispatch(hideLoading());
+            })
+    }
+}
+
+export function handleRegisterWithGoogle(token) {
+    return (dispatch) => {
+        dispatch(showLoading());
+        return createUserWithGoogle(token)
+            .then((result) => {
+                dispatch(receiveUser(result.data));
                 dispatch(hideLoading());
             })
     }

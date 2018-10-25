@@ -5,7 +5,12 @@ export default function userData(state = {}, action) {
         case RECEIVE_USER :
             return{
                 ...state,
-                user:action.user
+                user:{
+                    name:action.user.name,
+                    access_token:action.user.access_token,
+                    refresher_token:action.user.refresh_token
+                }
+
             };
         default :
             return state;
