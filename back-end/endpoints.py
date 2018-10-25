@@ -1,20 +1,33 @@
-from models import UserModel,RevokedTokenModel,CategoryModel,ItemModel
+from models import UserModel, RevokedTokenModel, CategoryModel, ItemModel
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
+from flask_jwt_extended import (create_access_token,
+                                create_refresh_token,
+                                jwt_required,
+                                jwt_refresh_token_required,
+                                get_jwt_identity,
+                                get_raw_jwt)
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from wtforms import StringField, Form
 from wtforms.validators import DataRequired
-from flask import request,jsonify
+from flask import request, jsonify
 from app import db
 import datetime
 
-GOOGLE_CLIENT_ID = '618789413227-rfh1jsedtnhs052ofiko10l639ak5h7v.apps.googleusercontent.com'
+GOOGLE_CLIENT_ID = '618789413227-rfh1jsedtnhs052ofiko10l639ak5h7v' \
+                   '.apps' \
+                   '.googleusercontent.com'
 
 register_parser = reqparse.RequestParser()
-register_parser.add_argument('username', help='This field cannot be blank', required=True)
-register_parser.add_argument('password', help='This field cannot be blank', required=True)
-register_parser.add_argument('name', help='This field cannot be blank', required=True)
+register_parser.add_argument('username',
+                             help='This field cannot be blank',
+                             required=True)
+register_parser.add_argument('password',
+                             help='This field cannot be blank',
+                             required=True)
+register_parser.add_argument('name',
+                             help='This field cannot be blank',
+                             required=True)
 
 
 class LoginForm(Form):
@@ -32,28 +45,31 @@ class UserRegistrationWithGoggle(Resource):
 
         if form.validate():
             try:
-                id_info = id_token.verify_oauth2_token(form.token.data, requests.Request(), GOOGLE_CLIENT_ID)
+                id_info = id_token.verify_oauth2_token(form.token.data,
+                                                       requests.Request(),
+                                                       GOOGLE_CLIENT_ID)
 
-                if id_info['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
+                if id_info['iss'] not in ['accounts.google.com',
+                                          'https://accounts.google.com']:
                     raise ValueError('Wrong issuer.')
 
-                new_user = UserModel(
+                user = UserModel(
                     username=id_info['email'],
                     password=UserModel.generate_hash(id_info['sub']),
                     name=id_info['name'],
                     googleid=id_info['sub']
                 )
                 try:
-                    new_user.save_to_db()
-                    access_token = create_access_token(identity=new_user.username)
-                    refresh_token = create_refresh_token(identity=new_user.username)
+                    user.save_to_db()
+                    a_token = create_access_token(identity=user.username)
+                    r_token = create_refresh_token(identity=user.username)
                     return {
-                        'access_token': access_token,
-                        'refresh_token': refresh_token,
-                        'name': new_user.name
+                        'access_token': a_token,
+                        'refresh_token': r_token,
+                        'name': user.name
                     }
                 except:
-                    return {'message': 'Error Register With Google'}, 500
+                    raise
 
             except ValueError:
                 return {'message': 'Invalid Google Account'}, 500
@@ -66,7 +82,7 @@ class UserRegistration(Resource):
         data = register_parser.parse_args()
 
         if UserModel.find_by_username(data['username']):
-            return {'message': 'User {} already exists'.format(data['username'])}
+            return {'message': '{} exists'.format(data['username'])}
 
         new_user = UserModel(
             username=data['username'],
@@ -75,11 +91,11 @@ class UserRegistration(Resource):
         )
         try:
             new_user.save_to_db()
-            access_token = create_access_token(identity=data['username'])
-            refresh_token = create_refresh_token(identity=data['username'])
+            a_token = create_access_token(identity=data['username'])
+            r_token = create_refresh_token(identity=data['username'])
             return {
-                'access_token': access_token,
-                'refresh_token': refresh_token,
+                'access_token': a_token,
+                'refresh_token': r_token,
                 'name': new_user.name
             }
         except:
@@ -91,14 +107,14 @@ class UserLogin(Resource):
         form = LoginForm(request.form)
         current_user = UserModel.find_by_username(form.username.data)
         if not current_user:
-            return {'message': 'User {} doesn\'t exist'.format(form.username.data)}
+            return {'message': 'User doesn\'t exist'}
 
         if UserModel.verify_hash(form.password.data, current_user.password):
-            access_token = create_access_token(identity=form.username.data)
-            refresh_token = create_refresh_token(identity=form.username.data)
+            a_token = create_access_token(identity=form.username.data)
+            r_token = create_refresh_token(identity=form.username.data)
             return {
-                'access_token': access_token,
-                'refresh_token': refresh_token,
+                'access_token': a_token,
+                'refresh_token': r_token,
                 'name': current_user.name
                 }
         else:
@@ -111,22 +127,25 @@ class UserGoogleLogin(Resource):
 
         if form.validate():
             try:
-                id_info = id_token.verify_oauth2_token(form.token.data, requests.Request(), GOOGLE_CLIENT_ID)
+                id_info = id_token.verify_oauth2_token(form.token.data,
+                                                       requests.Request(),
+                                                       GOOGLE_CLIENT_ID)
 
-                if id_info['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
+                if id_info['iss'] not in ['accounts.google.com',
+                                          'https://accounts.google.com']:
                     raise ValueError('Wrong issuer.')
 
                 try:
                     user = UserModel.find_by_username(id_info['email'])
 
                     if not user:
-                        return {'message': 'User {} doesn\'t exist'.format(id_info['email'])}
+                        return {'message': 'User doesn\'t exist'}
 
-                    access_token = create_access_token(identity=user.username)
-                    refresh_token = create_refresh_token(identity=user.username)
+                    a_token = create_access_token(identity=user.username)
+                    r_token = create_refresh_token(identity=user.username)
                     return {
-                        'access_token': access_token,
-                        'refresh_token': refresh_token,
+                        'access_token': a_token,
+                        'refresh_token': r_token,
                         'name': user.name
                     }
                 except:
@@ -156,7 +175,7 @@ class UserLogoutRefresh(Resource):
     def post(self):
         jti = get_raw_jwt()['jti']
         try:
-            revoked_token = RevokedTokenModel(jti = jti)
+            revoked_token = RevokedTokenModel(jti=jti)
             revoked_token.add()
             return {'message': 'Refresh token has been revoked'}
         except:
@@ -300,7 +319,9 @@ class ModifyItem(Resource):
     @jwt_required
     def put(self):
         item = ItemModel.query.filter_by(id=request.form['id']).first()
-        item.update_item(request.form['name'], request.form['description'], request.form['categoryid'])
+        item.update_item(request.form['name'],
+                         request.form['description'],
+                         request.form['categoryid'])
         response = jsonify({'success': 200})
         return response
 
@@ -310,6 +331,7 @@ class DeleteItem(Resource):
     def delete(self):
         args = request.args
         item = ItemModel.query.filter_by(id=args['id']).first()
+
         db.session.delete(item)
         db.session.commit()
         response = jsonify({'success': 200})

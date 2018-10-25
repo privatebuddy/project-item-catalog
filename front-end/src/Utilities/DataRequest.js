@@ -110,7 +110,6 @@ export function deleteItem(itemId=0,token='') {
 
 function requestDataFromServer(endPoint='',method='',data=null,contentType='',access_token='')
 {
-    console.log(access_token)
     return axios({
         url: server_path+endPoint,
         method: method,
@@ -127,6 +126,5 @@ function requestDataFromServer(endPoint='',method='',data=null,contentType='',ac
         } else {
             console.log('Error', error.message);
         }
-        console.log(error.config);
     });
 }

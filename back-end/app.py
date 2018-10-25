@@ -1,3 +1,5 @@
+
+
 from flask import Flask
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
@@ -24,7 +26,7 @@ errors = {
 
 app = Flask(__name__)
 CORS(app)
-api = Api(app,errors=errors)
+api = Api(app, errors=errors)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///item_catalog.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'project-item-catalog-secret-zzz'
@@ -49,9 +51,13 @@ api.add_resource(endpoints.AllUsers, '/users')
 api.add_resource(endpoints.SecretResource, '/secret')
 api.add_resource(endpoints.GetCategories, '/category')
 api.add_resource(endpoints.CreateCategory, '/createcategory')
-api.add_resource(endpoints.GetCategoryItems, '/getcategory', endpoint='categories')
+api.add_resource(endpoints.GetCategoryItems,
+                 '/getcategory',
+                 endpoint='categories')
 api.add_resource(endpoints.ModifyCategory, '/updatecategory')
-api.add_resource(endpoints.DeleteCategory, '/deletecategory', endpoint='deletecategory')
+api.add_resource(endpoints.DeleteCategory,
+                 '/deletecategory',
+                 endpoint='deletecategory')
 api.add_resource(endpoints.GetItem, '/getitem', endpoint='getitem')
 api.add_resource(endpoints.CreateItem, '/createitem')
 api.add_resource(endpoints.ModifyItem, '/updateitem')
@@ -67,8 +73,3 @@ def create_tables():
 def check_if_token_in_blacklist(decrypted_token):
     jti = decrypted_token['jti']
     return models.RevokedTokenModel.is_jti_blacklisted(jti)
-
-
-
-
-

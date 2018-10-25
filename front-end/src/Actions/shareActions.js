@@ -136,10 +136,10 @@ export function handleCreateCategory(name,token) {
     }
 }
 
-export function handleCreateItem(name,description,categoryId) {
+export function handleCreateItem(name,description,categoryId,token) {
     return (dispatch) => {
         dispatch(showLoading());
-        return createItem(name,description,categoryId)
+        return createItem(name,description,categoryId,token)
             .then((result) =>
                 dispatch(hideLoading())
             )
