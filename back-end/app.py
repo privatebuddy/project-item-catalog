@@ -1,13 +1,15 @@
-import sys
+import requests
 from flask import Flask, jsonify, request
 from Database import session, User, Item, Category
 from sqlalchemy import desc
-from flask_login import LoginManager, current_user, login_user, login_required, logout_user
+from flask_login import LoginManager, current_user, login_user, logout_user
 from wtforms import StringField, Form
 from wtforms.validators import DataRequired
 from flask_cors import CORS
-
+from google.oauth2 import id_token
+from google.auth.transport import requests
 import datetime
+
 
 app = Flask(__name__)
 CORS(app)
@@ -19,6 +21,7 @@ app.config.update(dict(
 
 
 class LoginForm(Form):
+    name = StringField('name', validators=[DataRequired()])
     username = StringField('username', validators=[DataRequired()])
     password = StringField('password', validators=[DataRequired()])
 
@@ -38,6 +41,14 @@ class InvalidUsage(Exception):
         rv['message'] = self.message
         return rv
 
+
+def check_token(token):
+    id_info = id_token.verify_oauth2_token(token, requests.Request(),
+                                           '618789413227-rfh1jsedtnhs052ofiko10l639ak5h7v.apps.googleusercontent.com')
+    if id_info['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
+        response = jsonify({'login_status': 'fail'})
+        return response
+    return id_info
 
 @app.errorhandler(InvalidUsage)
 def handle_invalid_usage(error):
@@ -63,7 +74,7 @@ def remove_session(ex=None):
 
 @login.user_loader
 def load_user(id):
-    return session.query(User).get(int(id))
+    return session.query(User).filter_by(id=id).first()
 
 
 @app.route('/')
@@ -85,28 +96,57 @@ def create_new_user():
     return response
 
 
+@app.route('/logingoogle', methods=['POST'])
+def login_with_google():
+
+    user = check_token(request.form['token'])
+
+    if user is not None:
+        store_user = session.query(User).filter_by(googleid=user['sub']).first()
+        if store_user is not None:
+            login_user(store_user)
+            response = jsonify({'login_status': 1}, {'username': store_user.username})
+            return response
+        else:
+            new_user = User(
+                name=request.form['name'],
+                username=request.form['username'],
+                googleid=user['sub']
+            )
+            session.add(new_user)
+            session.commit()
+            login_user(new_user)
+            response = jsonify({'login_status': 1}, {'name': new_user.name, 'username': new_user.username})
+            return response
+    else:
+        response = jsonify([{'login_status': 0}])
+        return response
+
+
 @app.route('/login', methods=['POST'])
 def login():
     form = LoginForm(request.form)
+
     if current_user.is_authenticated:
         user = session.query(User).filter_by(username=form.username.data).first()
-        response = jsonify({'name': user.name, 'username': user.username})
+        login_user(user)
+        response = jsonify({'login_status': 1}, {'name': user.name, 'username': user.username})
         return response
+
     if form.validate():
         user = session.query(User).filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            response = jsonify({'success': 500})
+            response = jsonify([{'login_status': 0}])
             return response
+
         login_user(user)
-        response = jsonify({'name': user.name, 'username': user.username})
-        response.headers.add('Access-Control-Allow-Origin', '*')
+        response = jsonify({'login_status': 1}, {'name': user.name, 'username': user.username})
         return response
-    response = jsonify({'success': 200})
+    response = jsonify([{'login_status': 0}])
     return response
 
 
 @app.route("/logout")
-@login_required
 def logout():
     logout_user()
     return 'user logout'
@@ -254,5 +294,5 @@ def get_all_category():
     return response
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=8080)

@@ -12,10 +12,23 @@ export function createUser(name='', username='', password='') {
     return requestDataFromServer(endPoint,'POST',formData,'application/json');
 }
 
+export function loginWithGoogle(name='', username='', userId='', token='')
+{
+    const endPoint = `logingoogle`;
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('username', username);
+    formData.append('user_id', userId);
+    formData.append('token', token);
+
+    return requestDataFromServer(endPoint,'POST',formData,'application/json');
+}
+
 export function login(username='',password='')
 {
     const endPoint = `login`;
     const formData = new FormData();
+    formData.append('name', username);
     formData.append('username', username);
     formData.append('password', password);
 
@@ -85,7 +98,10 @@ export function updateItemDetail(itemId=0,name='',categoryId=0,description='') {
     return requestDataFromServer(endPoint,'PUT',formData,'application/json');
 }
 
-
+export function deleteItem(itemId=0) {
+    const endPoint = `deleteitem/${itemId}`;
+    return requestDataFromServer(endPoint,'PUT',null,'application/json');
+}
 
 function requestDataFromServer(endPoint='',method='',data=null,contentType='')
 {

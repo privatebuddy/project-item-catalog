@@ -5,7 +5,14 @@ import {
     logout,
     getCategories,
     getItemsInCategory,
-    updateCategoryName, getItemDetailById, updateItemDetail, deleteCategory, createCategory, createItem
+    updateCategoryName,
+    getItemDetailById,
+    updateItemDetail,
+    deleteCategory,
+    createCategory,
+    createItem,
+    loginWithGoogle,
+    deleteItem
 } from "../Utilities/DataRequest";
 import {receiveUser} from "./user";
 import {receiveItemDetail, receiveItems, receiveLatestItem} from "./items";
@@ -26,7 +33,10 @@ export function handleLogin(username,password) {
         dispatch(showLoading());
         return login(username,password)
             .then((result) => {
-                dispatch(receiveUser(result.data));
+                if(result.data[0].login_status.toString() !== '0')
+                {
+                    dispatch(receiveUser(result.data));
+                }
                 dispatch(hideLoading());
             })
     }
@@ -139,4 +149,28 @@ export function handleCreateItem(name,description,categoryId) {
     }
 }
 
+
+export function handleLoginWithGoogle(name,username,userId,token) {
+    return (dispatch) => {
+        dispatch(showLoading());
+        return loginWithGoogle(name,username,userId,token)
+            .then((result) => {
+                if(result.data[0].login_status.toString() !== '0')
+                {
+                    dispatch(receiveUser(result.data));
+                }
+                dispatch(hideLoading());
+            })
+    }
+}
+
+export function handleDeleteItem(itemId) {
+    return (dispatch) => {
+        dispatch(showLoading());
+        return deleteItem(itemId)
+            .then((result) =>
+                dispatch(hideLoading())
+            )
+    }
+}
 

@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Dropdown, Grid, Header, Container, Button, Input} from 'semantic-ui-react'
 import connect from "react-redux/es/connect/connect";
-import {handleChangeItemDetail, handleGetItemDetailById} from "../Actions/shareActions";
+import {handleChangeItemDetail, handleDeleteItem, handleGetItemDetailById} from "../Actions/shareActions";
+import {Redirect} from 'react-router-dom';
 
 class ItemPage extends Component {
 
@@ -11,6 +12,7 @@ class ItemPage extends Component {
         changCategoryType: 0,
         changeDetail: '',
         errorName: false,
+        isDelete:false
     };
 
     componentDidMount() {
@@ -52,7 +54,7 @@ class ItemPage extends Component {
     };
 
     onDeleteItem = () => {
-
+        this.props.dispatch(handleDeleteItem(this.props.BrowseItem.categoryId)).then(() => this.setState({isDelete:true}))
     };
 
     checkValidation = () => {
@@ -68,13 +70,18 @@ class ItemPage extends Component {
 
     render() {
         const {Loading, Categories, BrowseItem} = this.props;
-        const {isChangeDetail, changeName, changCategoryType, changeDetail, errorName} = this.state;
+        const {isChangeDetail, changeName, changCategoryType, changeDetail, errorName,isDelete} = this.state;
         let options = [{key: 1, text: 'none', value: 1}];
         if (!Loading) {
             options = Categories.map((category) => {
                 return {key: category.id, text: category.name, value: category.id}
             })
         }
+        if(isDelete)
+        {
+            return <Redirect to={`/`}/>
+        }
+
         return (
             <div>
                 {
