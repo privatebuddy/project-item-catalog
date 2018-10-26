@@ -1,4 +1,4 @@
-from models import UserModel, RevokedTokenModel, CategoryModel, ItemModel
+import models
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import (create_access_token,
                                 create_refresh_token,
@@ -53,9 +53,9 @@ class UserRegistrationWithGoggle(Resource):
                                           'https://accounts.google.com']:
                     raise ValueError('Wrong issuer.')
 
-                user = UserModel(
+                user = models.UserModel(
                     username=id_info['email'],
-                    password=UserModel.generate_hash(id_info['sub']),
+                    password=models.UserModel.generate_hash(id_info['sub']),
                     name=id_info['name'],
                     googleid=id_info['sub']
                 )
@@ -81,12 +81,12 @@ class UserRegistration(Resource):
     def post(self):
         data = register_parser.parse_args()
 
-        if UserModel.find_by_username(data['username']):
+        if models.UserModel.find_by_username(data['username']):
             return {'message': '{} exists'.format(data['username'])}
 
-        new_user = UserModel(
+        new_user = models.UserModel(
             username=data['username'],
-            password=UserModel.generate_hash(data['password']),
+            password=models.UserModel.generate_hash(data['password']),
             name=data['name']
         )
         try:
@@ -105,11 +105,11 @@ class UserRegistration(Resource):
 class UserLogin(Resource):
     def post(self):
         form = LoginForm(request.form)
-        current_user = UserModel.find_by_username(form.username.data)
+        current_user = models.UserModel.find_by_username(form.username.data)
         if not current_user:
             return {'message': 'User doesn\'t exist'}
 
-        if UserModel.verify_hash(form.password.data, current_user.password):
+        if models.UserModel.verify_hash(form.password.data, current_user.password):
             a_token = create_access_token(identity=form.username.data)
             r_token = create_refresh_token(identity=form.username.data)
             return {
@@ -136,7 +136,7 @@ class UserGoogleLogin(Resource):
                     raise ValueError('Wrong issuer.')
 
                 try:
-                    user = UserModel.find_by_username(id_info['email'])
+                    user = models.UserModel.find_by_username(id_info['email'])
 
                     if not user:
                         return {'message': 'User doesn\'t exist'}
@@ -163,7 +163,7 @@ class UserLogoutAccess(Resource):
     def post(self):
         jti = get_raw_jwt()['jti']
         try:
-            revoked_token = RevokedTokenModel(jti=jti)
+            revoked_token = models.RevokedTokenModel(jti=jti)
             revoked_token.add()
             return {'message': 'Access token has been revoked'}
         except:
@@ -175,7 +175,7 @@ class UserLogoutRefresh(Resource):
     def post(self):
         jti = get_raw_jwt()['jti']
         try:
-            revoked_token = RevokedTokenModel(jti=jti)
+            revoked_token = models.RevokedTokenModel(jti=jti)
             revoked_token.add()
             return {'message': 'Refresh token has been revoked'}
         except:
@@ -209,13 +209,13 @@ class SecretResource(Resource):
 class GetCategories(Resource):
     @jwt_required
     def get(self):
-        categories = CategoryModel.query.all()
+        categories = models.CategoryModel.query.all()
         all_category = [
             {'id': category.id,
              'name': category.name,
              } for category in categories]
 
-        items = ItemModel.query.order_by(ItemModel.id.desc()).limit(10).all()
+        items = models.ItemModel.query.order_by(models.ItemModel.id.desc()).limit(10).all()
         all_item = [
             {'id': item.id,
              'name': item.name,
@@ -230,7 +230,7 @@ class GetCategories(Resource):
 class CreateCategory(Resource):
     @jwt_required
     def post(self):
-        new_category = CategoryModel(
+        new_category = models.CategoryModel(
             name=request.form['name'],
         )
         new_category.save_to_db()
@@ -242,7 +242,7 @@ class GetCategoryItems(Resource):
     @jwt_required
     def get(self):
         args = request.args
-        items = ItemModel.query.filter_by(categoryid=args['categoryId'])
+        items = models.ItemModel.query.filter_by(categoryid=args['categoryId'])
         all_item = [
             {'id': item.id,
              'name': item.name,
@@ -258,7 +258,7 @@ class GetCategoryItems(Resource):
 class ModifyCategory(Resource):
     @jwt_required
     def put(self):
-        category = CategoryModel.query.filter_by(id=request.form['id']).first()
+        category = models.CategoryModel.query.filter_by(id=request.form['id']).first()
         category.update_category(request.form['name'])
         response = jsonify({'success': 200})
         return response
@@ -268,8 +268,8 @@ class DeleteCategory(Resource):
     @jwt_required
     def delete(self):
         args = request.args
-        items = ItemModel.query.filter_by(categoryid=args['id']).all()
-        category = CategoryModel.query.filter_by(id=args['id']).first()
+        items = models.ItemModel.query.filter_by(categoryid=args['id']).all()
+        category = models.CategoryModel.query.filter_by(id=args['id']).first()
         for item in items:
             item.delete_item()
         category.delete_category()
@@ -281,8 +281,8 @@ class GetItem(Resource):
     @jwt_required
     def get(self):
         args = request.args
-        return_item = ItemModel.query.filter_by(id=args['id']).first()
-        return_categories = CategoryModel.query.all()
+        return_item = models.ItemModel.query.filter_by(id=args['id']).first()
+        return_categories = models.CategoryModel.query.all()
         return jsonify({
             'item':
             {
@@ -303,7 +303,7 @@ class GetItem(Resource):
 class CreateItem(Resource):
     @jwt_required
     def post(self):
-        new_item = ItemModel(
+        new_item = models.ItemModel(
             name=request.form['name'],
             description=request.form['description'],
             categoryid=request.form['category_id'],
@@ -317,7 +317,7 @@ class CreateItem(Resource):
 class ModifyItem(Resource):
     @jwt_required
     def put(self):
-        item = ItemModel.query.filter_by(id=request.form['id']).first()
+        item = models.ItemModel.query.filter_by(id=request.form['id']).first()
         item.update_item(request.form['name'],
                          request.form['description'],
                          request.form['categoryid'])
@@ -329,7 +329,7 @@ class DeleteItem(Resource):
     @jwt_required
     def delete(self):
         args = request.args
-        item = ItemModel.query.filter_by(id=args['id']).first()
+        item = models.ItemModel.query.filter_by(id=args['id']).first()
         item.delete_item()
         response = jsonify({'success': 200})
         return response
