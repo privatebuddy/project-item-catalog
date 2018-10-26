@@ -35,8 +35,7 @@ app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
 
-import models
-import endpoints
+import models, endpoints
 
 api.add_resource(endpoints.UserRegistrationWithGoggle, '/creategoogleuser')
 api.add_resource(endpoints.UserRegistration, '/createuser')
