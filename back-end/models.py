@@ -77,6 +77,10 @@ class CategoryModel(db.Model):
         self.name = name
         db.session.commit()
 
+    def delete_category(self):
+        db.session.delete(self)
+        db.session.commit()
+
 
 class ItemModel(db.Model):
     __tablename__ = "item"
@@ -94,4 +98,8 @@ class ItemModel(db.Model):
         self.name = name
         self.description = description
         self.categoryid = categoryid
+        db.session.commit()
+
+    def delete_item(self):
+        db.session.delete(self)
         db.session.commit()

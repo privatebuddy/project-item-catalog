@@ -11,7 +11,7 @@ from google.auth.transport import requests
 from wtforms import StringField, Form
 from wtforms.validators import DataRequired
 from flask import request, jsonify
-from app import db
+
 import datetime
 
 GOOGLE_CLIENT_ID = '618789413227-rfh1jsedtnhs052ofiko10l639ak5h7v' \
@@ -271,9 +271,8 @@ class DeleteCategory(Resource):
         items = ItemModel.query.filter_by(categoryid=args['id']).all()
         category = CategoryModel.query.filter_by(id=args['id']).first()
         for item in items:
-            db.session.delete(item)
-        db.session.delete(category)
-        db.session.commit()
+            item.delete_item()
+        category.delete_category()
         response = jsonify({'success': 200})
         return response
 
@@ -331,8 +330,6 @@ class DeleteItem(Resource):
     def delete(self):
         args = request.args
         item = ItemModel.query.filter_by(id=args['id']).first()
-
-        db.session.delete(item)
-        db.session.commit()
+        item.delete_item()
         response = jsonify({'success': 200})
         return response
