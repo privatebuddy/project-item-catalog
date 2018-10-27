@@ -1,1 +1,1 @@
-export const server_path = "http://127.0.0.1:5000/";
+export const server_path = "http://54.255.147.12/";
